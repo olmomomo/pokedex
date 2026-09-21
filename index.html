@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ============================================
+       Pokédex — Subtarea 1
+       Aplicación web para buscar Pokémon por nombre o ID
+       usando la PokéAPI (https://pokeapi.co)
+       ============================================ -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pokédex interactiva — Busca cualquier Pokémon por nombre o ID y visualiza su información.">
+  <title>Pokédex — Buscador de Pokémon</title>
+
+  <!-- Google Fonts — Outfit (moderna y legible) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Hoja de estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ============================================
+       CONTENEDOR PRINCIPAL
+       Centramos todo el contenido verticalmente
+       ============================================ -->
+  <main id="app">
+
+    <!-- Título de la aplicación -->
+    <h1 id="app-title">
+      <span class="pokeball-icon">◓</span> Pokédex
+    </h1>
+    <p class="subtitle">Busca cualquier Pokémon por nombre o número de ID</p>
+
+    <!-- ============================================
+         FORMULARIO DE BÚSQUEDA
+         Usamos <form> para que funcione con Enter
+         ============================================ -->
+    <form id="search-form" autocomplete="off">
+      <div class="search-container">
+        <!-- Campo de texto para ingresar nombre o ID -->
+        <input
+          type="text"
+          id="pokemon-input"
+          placeholder="Ej: pikachu, 25, charizard..."
+          aria-label="Nombre o ID del Pokémon"
+        >
+        <!-- Botón de búsqueda -->
+        <button type="submit" id="search-btn" aria-label="Buscar Pokémon">
+          <!-- Ícono SVG de lupa -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          Buscar
+        </button>
+      </div>
+    </form>
+
+    <!-- ============================================
+         CONTENEDOR DE ERRORES
+         Se muestra solo cuando hay un error
+         ============================================ -->
+    <div id="error-message" class="error-message" role="alert"></div>
+
+    <!-- ============================================
+         TARJETA DEL POKÉMON
+         Inicialmente vacía, se llena dinámicamente
+         con JavaScript después de una búsqueda exitosa
+         ============================================ -->
+    <div id="pokemon-card" class="pokemon-card"></div>
+
+  </main>
+
+  <!-- Script de la aplicación -->
+  <script src="app.js"></script>
+</body>
+</html>

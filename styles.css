@@ -1,0 +1,442 @@
+/* ============================================
+   POKÉDEX — HOJA DE ESTILOS
+   Diseño: Glassmorphism sobre fondo oscuro
+   Tipografía: Outfit (Google Fonts)
+   ============================================ */
+
+/* ============================================
+   1. VARIABLES CSS (Custom Properties)
+   Definimos colores, sombras y valores reutilizables
+   para mantener consistencia en todo el diseño.
+   ============================================ */
+:root {
+  /* --- Colores de fondo --- */
+  --bg-primary: #0f0f23;
+  --bg-secondary: #1a1a3e;
+
+  /* --- Colores de superficie (tarjetas, inputs) --- */
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-hover: rgba(255, 255, 255, 0.1);
+  --surface-border: rgba(255, 255, 255, 0.12);
+
+  /* --- Colores de texto --- */
+  --text-primary: #f0f0f5;
+  --text-secondary: rgba(240, 240, 245, 0.65);
+  --text-muted: rgba(240, 240, 245, 0.4);
+
+  /* --- Color de acento (botón, detalles) --- */
+  --accent: #6c5ce7;
+  --accent-hover: #7c6ff7;
+  --accent-glow: rgba(108, 92, 231, 0.35);
+
+  /* --- Error --- */
+  --error: #ff6b6b;
+  --error-bg: rgba(255, 107, 107, 0.1);
+
+  /* --- Sombras --- */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-btn: 0 4px 15px var(--accent-glow);
+
+  /* --- Bordes redondeados --- */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 50%;
+}
+
+/* ============================================
+   2. RESET Y BASE
+   Eliminamos márgenes por defecto y aplicamos
+   la tipografía global.
+   ============================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  /* Gradiente radial oscuro como fondo */
+  background: radial-gradient(ellipse at top, var(--bg-secondary), var(--bg-primary) 70%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px 40px;
+  /* Evitar scroll horizontal */
+  overflow-x: hidden;
+}
+
+/* ============================================
+   3. LAYOUT PRINCIPAL
+   Contenedor centrado con ancho máximo.
+   ============================================ */
+#app {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ============================================
+   4. TÍTULO
+   Título grande con ícono de Pokébola.
+   ============================================ */
+#app-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  text-align: center;
+  /* Gradiente de texto */
+  background: linear-gradient(135deg, #ffffff 0%, #a29bfe 50%, #6c5ce7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pokeball-icon {
+  display: inline-block;
+  font-size: 2.2rem;
+  margin-right: 4px;
+  /* Animación de rotación sutil */
+  animation: spin 4s linear infinite;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: -12px;
+}
+
+/* ============================================
+   5. FORMULARIO DE BÚSQUEDA
+   Input y botón en una fila horizontal.
+   ============================================ */
+#search-form {
+  width: 100%;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+/* --- Campo de texto --- */
+#pokemon-input {
+  flex: 1;
+  padding: 14px 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1.5px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estado de enfoque del input */
+#pokemon-input:focus {
+  border-color: var(--accent);
+  background: var(--surface-hover);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Placeholder */
+#pokemon-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* --- Botón de búsqueda --- */
+#search-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+#search-btn:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow-btn);
+  transform: translateY(-1px);
+}
+
+#search-btn:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   6. MENSAJE DE ERROR
+   Se muestra cuando la búsqueda falla.
+   ============================================ */
+.error-message {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--error-bg);
+  border: 1px solid rgba(255, 107, 107, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  /* Oculto por defecto */
+  display: none;
+}
+
+/* Cuando tiene contenido, se muestra con animación */
+.error-message.visible {
+  display: block;
+  animation: shake 0.4s ease;
+}
+
+/* ============================================
+   7. TARJETA DEL POKÉMON
+   Diseño glassmorphism con efecto blur.
+   ============================================ */
+.pokemon-card {
+  width: 100%;
+}
+
+/* Contenido interno de la tarjeta (se inyecta con JS) */
+.card-inner {
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 28px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  /* Animación de entrada */
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --- Contenedor del sprite --- */
+.sprite-container {
+  width: 160px;
+  height: 160px;
+  border-radius: var(--radius-full);
+  background: radial-gradient(circle, rgba(108, 92, 231, 0.15) 0%, transparent 70%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Anillo decorativo alrededor del sprite */
+.sprite-container::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--radius-full);
+  border: 2px dashed rgba(108, 92, 231, 0.2);
+  animation: spin 12s linear infinite;
+}
+
+.sprite-container img {
+  width: 130px;
+  height: 130px;
+  image-rendering: pixelated;
+  /* Filtro para que se vea vibrante */
+  filter: drop-shadow(0 4px 12px rgba(108, 92, 231, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.sprite-container img:hover {
+  transform: scale(1.12);
+}
+
+/* --- ID del Pokémon --- */
+.pokemon-id {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* --- Nombre del Pokémon --- */
+.pokemon-name {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-transform: capitalize;
+  margin-top: -8px;
+}
+
+/* --- Línea separadora --- */
+.divider {
+  width: 60px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  margin: 4px 0;
+}
+
+/* --- Detalles (peso, tipo) --- */
+.pokemon-details {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.detail-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.detail-chip .label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* --- Badge de tipo del Pokémon --- */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+/* ============================================
+   8. COLORES POR TIPO DE POKÉMON
+   Cada tipo tiene un color representativo.
+   ============================================ */
+.type-normal    { background: #a8a878; }
+.type-fire      { background: #f08030; }
+.type-water     { background: #6890f0; }
+.type-electric  { background: #f8d030; color: #333; }
+.type-grass     { background: #78c850; }
+.type-ice       { background: #98d8d8; color: #333; }
+.type-fighting  { background: #c03028; }
+.type-poison    { background: #a040a0; }
+.type-ground    { background: #e0c068; color: #333; }
+.type-flying    { background: #a890f0; }
+.type-psychic   { background: #f85888; }
+.type-bug       { background: #a8b820; color: #333; }
+.type-rock      { background: #b8a038; }
+.type-ghost     { background: #705898; }
+.type-dragon    { background: #7038f8; }
+.type-dark      { background: #705848; }
+.type-steel     { background: #b8b8d0; color: #333; }
+.type-fairy     { background: #ee99ac; color: #333; }
+
+/* ============================================
+   9. ESTADO DE CARGA (spinner)
+   ============================================ */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--surface-border);
+  border-top-color: var(--accent);
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+  margin: 40px auto;
+}
+
+/* ============================================
+   10. ANIMACIONES
+   ============================================ */
+
+/* Entrada con desplazamiento hacia arriba */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sacudida para errores */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+/* Rotación continua (para ícono Pokébola y spinner) */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================================
+   11. RESPONSIVE
+   Ajustes para pantallas pequeñas (< 500px)
+   ============================================ */
+@media (max-width: 500px) {
+  body {
+    padding: 40px 16px 32px;
+  }
+
+  #app-title {
+    font-size: 2.2rem;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  #search-btn {
+    justify-content: center;
+  }
+
+  .sprite-container {
+    width: 130px;
+    height: 130px;
+  }
+
+  .sprite-container img {
+    width: 105px;
+    height: 105px;
+  }
+
+  .pokemon-name {
+    font-size: 1.6rem;
+  }
+
+  .card-inner {
+    padding: 24px 20px 20px;
+  }
+}
